@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
@@ -6,27 +6,29 @@ import { Sparkles, Image as ImageIcon, Filter } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
-const Gallery = () => {
-  const [galleryItems, setGalleryItems] = useState<any[]>([]);
-  const [activeCategory, setActiveCategory] = useState("All");
+const galleryImages = import.meta.glob("../assets/gallery/*.jpg", {
+  eager: true,
+  import: "default",
+  query: "?url",
+}) as Record<string, string>;
 
-  // Fetch gallery items from WordPress
-  useEffect(() => {
-    fetch("http://localhost/wordpress/wordpress/wp-json/wp/v2/gallery?_embed")
-      .then((res) => res.json())
-      .then((data) => {
-        const items = data.map((item: any) => ({
-          id: item.id,
-          title: item.title.rendered,
-          description: item.content.rendered.replace(/<[^>]+>/g, ""), // remove HTML tags
-          image: item._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "",
-          category: item._embedded?.["wp:term"]?.[0]?.[0]?.name || "Uncategorized",
-          gradient: "from-primary to-accent",
-        }));
-        setGalleryItems(items);
-      })
-      .catch((err) => console.error("Error fetching gallery:", err));
-  }, []);
+const galleryItems = Object.entries(galleryImages)
+  .sort(([firstPath], [secondPath]) => {
+    const firstNumber = Number(firstPath.match(/E(\d+)\.jpg$/)?.[1] || 0);
+    const secondNumber = Number(secondPath.match(/E(\d+)\.jpg$/)?.[1] || 0);
+    return firstNumber - secondNumber;
+  })
+  .map(([filePath, image], index) => ({
+    id: filePath,
+    title: `Nigeria travel moment ${index + 1}`,
+    description: "A memorable moment from our Nigerian travel experiences.",
+    image,
+    category: "Travel Experiences",
+    gradient: "from-primary to-accent",
+  }));
+
+const Gallery = () => {
+  const [activeCategory, setActiveCategory] = useState("All");
 
   const categories = ["All", ...new Set(galleryItems.map((i) => i.category))];
 
