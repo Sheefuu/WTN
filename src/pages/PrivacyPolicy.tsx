@@ -1,8 +1,7 @@
 import LegalDocument from "./LegalDocument";
-import documentUrl from "@/assets/WELCOMETONIGERIA LTD PRIVACY POLICY.docx";
 
 const PrivacyPolicy = () => (
-  <LegalDocument title="Privacy Policy" documentUrl={documentUrl} />
+  <LegalDocument title="Privacy Policy" documentUrl="/privacy-policy.docx" />
 );
 
 export default PrivacyPolicy;

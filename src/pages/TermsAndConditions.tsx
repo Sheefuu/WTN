@@ -1,8 +1,7 @@
 import LegalDocument from "./LegalDocument";
-import documentUrl from "@/assets/WELCOMETONIGERIA LTD WEBSITE TERMS AND CONDITIONS OF USE.docx";
 
 const TermsAndConditions = () => (
-  <LegalDocument title="Terms and Conditions" documentUrl={documentUrl} />
+  <LegalDocument title="Terms and Conditions" documentUrl="/terms-and-conditions.docx" />
 );
 
 export default TermsAndConditions;
