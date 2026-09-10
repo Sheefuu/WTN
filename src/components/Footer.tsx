@@ -1,6 +1,7 @@
 import { MapPin, Phone, Mail, Clock, Zap} from "lucide-react";
 import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6"; // Twitter’s new X logo
+import { Link } from "react-router-dom";
 import wtnLogo from "@/assets/wtn-logo-with-text.png";
 const Footer = () => {
   return (
@@ -110,6 +111,14 @@ const Footer = () => {
             <p className="text-sm text-muted-foreground">
               © 2025 Welcome to Nigeria Ltd. All rights reserved.
             </p>
+            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-sm">
+              <Link to="/terms-and-conditions" className="text-muted-foreground hover:text-primary transition-smooth">
+                Terms &amp; Conditions
+              </Link>
+              <Link to="/privacy-policy" className="text-muted-foreground hover:text-primary transition-smooth">
+                Privacy Policy
+              </Link>
+            </div>
             <div className="flex items-center gap-2">
               <span className="text-sm text-muted-foreground">Proudly Nigerian</span>
               <span className="text-lg animate-pulse">🇳🇬</span>
