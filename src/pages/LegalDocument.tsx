@@ -1,43 +1,12 @@
-import { useEffect, useState } from "react";
-import mammoth from "mammoth/mammoth.browser";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
 type LegalDocumentProps = {
   title: string;
-  documentUrl: string;
+  content: string;
 };
 
-const LegalDocument = ({ title, documentUrl }: LegalDocumentProps) => {
-  const [content, setContent] = useState<string>("");
-  const [error, setError] = useState(false);
-
-  useEffect(() => {
-    let isCurrent = true;
-
-    const loadDocument = async () => {
-      try {
-        const response = await fetch(documentUrl);
-        const arrayBuffer = await response.arrayBuffer();
-        const result = await mammoth.convertToHtml({ arrayBuffer });
-
-        if (isCurrent) {
-          setContent(result.value);
-        }
-      } catch {
-        if (isCurrent) {
-          setError(true);
-        }
-      }
-    };
-
-    void loadDocument();
-
-    return () => {
-      isCurrent = false;
-    };
-  }, [documentUrl]);
-
+const LegalDocument = ({ title, content }: LegalDocumentProps) => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
@@ -53,18 +22,10 @@ const LegalDocument = ({ title, documentUrl }: LegalDocumentProps) => {
           </header>
 
           <article className="glass-effect rounded-xl border border-border/50 p-6 text-muted-foreground shadow-glow sm:p-10 lg:p-14">
-            {content ? (
-              <div
-                className="legal-document-content max-w-none"
-                dangerouslySetInnerHTML={{ __html: content }}
-              />
-            ) : error ? (
-              <p className="text-center leading-relaxed">
-                This document could not be loaded. Please try again later.
-              </p>
-            ) : (
-              <p className="text-center leading-relaxed">Loading document...</p>
-            )}
+            <div
+              className="legal-document-content max-w-none"
+              dangerouslySetInnerHTML={{ __html: content }}
+            />
           </article>
         </div>
       </main>
